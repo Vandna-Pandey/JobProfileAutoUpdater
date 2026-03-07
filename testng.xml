@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="ProfileUpdateSuite">
+
+    <test name="ProfileUpdate">
+
+        <classes>
+
+            <class name="profileupdate.automation.JobProfileAutoUpdater"/>
+
+        </classes>
+
+    </test>
+
+</suite>
