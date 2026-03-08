@@ -1,4 +1,4 @@
-package profileupdate.automation;
+package profileupdate.automation.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,24 +11,27 @@ public class LoginPage {
 
     WebDriver driver;
 
-    public LoginPage(WebDriver driver) {
+    public LoginPage(WebDriver driver){
+
         this.driver = driver;
+
     }
 
-    public void login(String username, String password) {
+    public void login(String username,String password){
 
         driver.get("https://www.naukri.com/nlogin/login");
 
-//        driver.findElement(By.id("usernameField")).sendKeys(username);
-//        driver.findElement(By.id("passwordField")).sendKeys(password);
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("usernameField")))
                 .sendKeys(username);
 
-        driver.findElement(By.id("passwordField")).sendKeys(password);
+        driver.findElement(By.id("passwordField"))
+                .sendKeys(password);
 
         driver.findElement(By.xpath("//button[@type='submit']")).click();
+
+        // WAIT UNTIL LOGIN COMPLETES
+        //wait.until(ExpectedConditions.urlContains("naukri.com"));
     }
 }
