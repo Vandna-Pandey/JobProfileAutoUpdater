@@ -3,7 +3,7 @@ name: Job Profile Auto Updater
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0,30 1-6 * * *'  # every 30 minutes from 1AM to 6AM
+    - cron: '0,30 1-6 * * *'
 
 jobs:
   run-automation:
@@ -17,17 +17,13 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '21'   # Match your project Java version
+          java-version: '21'
 
-      - name: Install Google Chrome
-        run: |
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install ./google-chrome-stable_current_amd64.deb -y
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
 
       - name: Build project
-        run: mvn -B clean install
+        run: mvn clean install -DskipTests
 
       - name: Run Selenium Tests
         run: mvn test
-        env:
-          DISPLAY: :99
