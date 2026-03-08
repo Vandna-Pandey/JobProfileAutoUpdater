@@ -1,35 +1,44 @@
-name: Job Profile Auto Updater
+name: Java Selenium CI
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # manual trigger
   schedule:
-    - cron: '0,30 1-6 * * *'
+    - cron: '30 1 * * *'  # 7:00 AM IST
+    - cron: '30 2 * * *'  # 8:00 AM IST
+    - cron: '30 3 * * *'  # 9:00 AM IST
+    - cron: '30 4 * * *'  # 10:00 AM IST
+    - cron: '30 5 * * *'  # 11:00 AM IST
+    - cron: '30 6 * * *'  # 12:00 PM IST
 
 jobs:
-  run-automation:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Java
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
           java-version: '21'
+          distribution: 'temurin'
 
-      - name: Setup Chrome
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build with Maven
+        run: mvn clean install -B
+
+      - name: Install Google Chrome
         uses: browser-actions/setup-chrome@v1
 
-      - name: Start virtual display
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xvfb
-          Xvfb :99 &
-          export DISPLAY=:99
-
-      - name: Build and Run Tests
-        run: mvn clean test
+      - name: Run Selenium tests
+        run: mvn test
         env:
           DISPLAY: :99
