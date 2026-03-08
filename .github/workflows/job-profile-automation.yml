@@ -1,18 +1,16 @@
-
 name: Job Profile Auto Updater
 
 on:
-  schedule:
-    # Runs every 30 minutes from 7 AM to 12 PM IST
-    - cron: '0,30 1-6 * * *'
   workflow_dispatch:
+  schedule:
+    - cron: '0,30 1-6 * * *'
 
 jobs:
   run-automation:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Setup Java
@@ -21,8 +19,8 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
-      - name: Build Project
-        run: mvn clean install
+      - name: Build project
+        run: mvn -B clean install
 
-      - name: Run Automation Tests
+      - name: Run tests
         run: mvn test
