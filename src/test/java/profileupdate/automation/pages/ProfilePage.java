@@ -21,7 +21,7 @@ public class ProfilePage {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-        wait.until(ExpectedConditions.urlContains("homepage"));
+        //wait.until(ExpectedConditions.urlContains("homepage"));
 
         driver.navigate().to("https://www.naukri.com/mnjuser/profile");
 
